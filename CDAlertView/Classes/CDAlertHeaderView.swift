@@ -6,7 +6,7 @@
 //  Copyright (c) 2016 Candost Dagdeviren. All rights reserved.
 //
 
-import Foundation
+import UIKit.UIView
 
 private extension CDAlertViewType {
     var fillColor: UIColor? {
@@ -21,7 +21,9 @@ private extension CDAlertViewType {
             return UIColor(red: 27/255, green: 169/255, blue: 225/255, alpha: 1)
         case .alarm:
             return UIColor(red: 196/255, green: 52/255, blue: 46/255, alpha: 1)
-        case .custom, .noImage:
+        case .custom:
+            return nil
+        case .noImage:
             return nil
         }
     }
@@ -30,7 +32,7 @@ private extension CDAlertViewType {
 internal class CDAlertHeaderView: UIView {
 
     // MARK: Properties
-    
+
     internal var circleFillColor: UIColor? {
         didSet {
             if let cfc = circleFillColor {
@@ -41,11 +43,10 @@ internal class CDAlertHeaderView: UIView {
     internal var isIconFilled: Bool = false
     internal var alertBackgroundColor: UIColor = UIColor.white.withAlphaComponent(0.9)
     internal var hasShadow: Bool = true
-    internal var hasRoundCorners = true
     private var fillColor: UIColor!
     private var type: CDAlertViewType?
     private var imageView: UIImageView?
-    
+
     convenience init(type: CDAlertViewType?, isIconFilled: Bool) {
         self.init(frame: .zero)
         self.type = type
@@ -53,68 +54,68 @@ internal class CDAlertHeaderView: UIView {
         backgroundColor = UIColor.clear
         fillColor = type?.fillColor ?? UIColor.white.withAlphaComponent(0.9)
         imageView = createImageView()
+        self.backgroundColor = UIColor.green
     }
-    
+
     // MARK: UIView
-    
+
     override func draw(_ rect: CGRect) {
-        var cornerRadii = CGSize(width: 8, height: 8)
-        if hasRoundCorners == false {
-            cornerRadii = CGSize(width: 0, height: 0)
-        }
-        let path = UIBezierPath(roundedRect: CGRect(x: 0, y: 16, width: rect.size.width, height: rect.size.height-16),
+        let path = UIBezierPath(roundedRect: CGRect(x: 0, y: rect.size.height/2, width: rect.size.width, height: rect.size.height/2),
                                 byRoundingCorners: [.topLeft, .topRight],
-                                cornerRadii: cornerRadii)
+                                cornerRadii: CGSize(width: 8, height: 8))
         alertBackgroundColor.setFill()
         path.fill()
 
-        if type?.hasImage() == true {
-            let curve = UIBezierPath(arcCenter: CGPoint(x: rect.size.width/2, y: 28),
-                                     radius: 28,
-                                     startAngle:6.84 * CGFloat.pi / 6,
-                                     endAngle: 11.155 * CGFloat.pi / 6,
-                                     clockwise: true)
+        switch type {
+        case .noImage:
+            break
+        default:
+            let curve = UIBezierPath(arcCenter: CGPoint(x: rect.size.width/2, y: 28*CDAlertView.scaleHeight),
+                                     radius: 28*CDAlertView.scaleHeight,
+                                     startAngle: 0,
+                                     endAngle: CGFloat.pi,
+                                     clockwise: false)
             alertBackgroundColor.setFill()
             curve.fill()
-        }
 
-        let innerCircle = UIBezierPath(arcCenter: CGPoint(x: rect.size.width/2, y: 28),
-                                       radius: 24,
-                                       startAngle:0,
-                                       endAngle: 2 * CGFloat.pi,
-                                       clockwise: true)
-        fillColor.setFill()
-        innerCircle.fill()
+            let innerCircle = UIBezierPath(arcCenter: CGPoint(x: rect.size.width/2, y: 28*CDAlertView.scaleHeight),
+                                           radius: 24*CDAlertView.scaleHeight,
+                                           startAngle: 0,
+                                           endAngle: 2 * CGFloat.pi,
+                                           clockwise: true)
+            fillColor.setFill()
+            innerCircle.fill()
 
-        if hasShadow {
-            layer.shadowColor = UIColor.black.cgColor
-            layer.shadowOpacity = 0.2
-            layer.shadowRadius = 4
-            layer.shadowOffset = CGSize.zero
-            layer.masksToBounds = false
-            let shadowPath = UIBezierPath()
-            shadowPath.move(to: CGPoint(x: 0.0, y: rect.size.height))
-            shadowPath.addLine(to: CGPoint(x: 0, y: 16))
-            shadowPath.addLine(to: CGPoint(x: (rect.size.width/2)-15, y: 16))
-            shadowPath.addArc(withCenter: CGPoint(x: rect.size.width/2, y: 28),
-                              radius: 28,
-                              startAngle: 6.84 * CGFloat.pi / 6,
-                              endAngle: 11.155 * CGFloat.pi / 6,
-                              clockwise: true)
-            shadowPath.addLine(to: CGPoint(x: rect.size.width, y: 16))
-            shadowPath.addLine(to: CGPoint(x: rect.size.width, y: rect.size.height))
-            shadowPath.addLine(to: CGPoint(x: rect.size.width-10, y: rect.size.height-5))
-            shadowPath.addLine(to: CGPoint(x: 10, y: rect.size.height-5))
-            shadowPath.close()
-            layer.shadowPath = shadowPath.cgPath
+            if hasShadow {
+                layer.shadowColor = UIColor.black.cgColor
+                layer.shadowOpacity = 0.2
+                layer.shadowRadius = 4
+                layer.shadowOffset = CGSize.zero
+                layer.masksToBounds = false
+                let shadowPath = UIBezierPath()
+                shadowPath.move(to: CGPoint(x: 0.0, y: rect.size.height))
+                shadowPath.addLine(to: CGPoint(x: 0, y: rect.size.height/2))
+                shadowPath.addLine(to: CGPoint(x: (rect.size.width/2)-15, y: rect.size.height/2))
+                shadowPath.addArc(withCenter: CGPoint(x: rect.size.width/2, y: 28*CDAlertView.scaleHeight),
+                                  radius: 28*CDAlertView.scaleHeight,
+                                  startAngle: 0,
+                                  endAngle: CGFloat.pi,
+                                  clockwise: false)
+                shadowPath.addLine(to: CGPoint(x: rect.size.width, y: rect.size.height/2))
+                shadowPath.addLine(to: CGPoint(x: rect.size.width, y: rect.size.height))
+                shadowPath.addLine(to: CGPoint(x: rect.size.width-10, y: rect.size.height-5))
+                shadowPath.addLine(to: CGPoint(x: 10, y: rect.size.height-5))
+                shadowPath.close()
+                layer.shadowPath = shadowPath.cgPath
+            }
         }
     }
-    
+
     // MARK: Private
 
     private func createImageView() -> UIImageView? {
         guard let type = type else { return nil }
-        
+
         let imageView = UIImageView(frame: .zero)
         var imageName: String?
         switch type {
@@ -134,18 +135,17 @@ internal class CDAlertHeaderView: UIView {
         case .custom(let image):
             imageView.image = image
         case .noImage:
-            break
+            imageView.image = nil
         }
-        
-        imageView.contentMode = .center
+
+        imageView.contentMode = .scaleAspectFit
         addSubview(imageView)
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.cd_centerHorizontally()
+        imageView.centerHorizontally()
+        imageView.centerVertically()
+        imageView.setHeight(24*CDAlertView.scaleHeight)
+        imageView.setWidth(24*CDAlertView.scaleHeight)
 
-        imageView.cd_alignToTop(of: self, margin: 12, multiplier: 1)
-        imageView.cd_setHeight(32)
-        imageView.cd_setWidth(32)
-        
         return imageView
     }
 }

@@ -6,10 +6,10 @@
 //
 //
 
-import Foundation
+import UIKit.UIView
 
 internal extension UIView {
-    func cd_alignToTop(of view: UIView, margin: CGFloat, multiplier: CGFloat) {
+    func alignToTop(of view: UIView, margin: CGFloat, multiplier: CGFloat) {
         self.superview!.addConstraint(NSLayoutConstraint(item: self,
                                                          attribute: .top,
                                                          relatedBy: .equal,
@@ -19,15 +19,15 @@ internal extension UIView {
                                                          constant: margin))
     }
 
-    func cd_alignTopToParent(with margin: CGFloat) {
-        cd_alignToTop(of: self.superview!, margin: margin, multiplier: 1)
+    func alignTopToParent(with margin: CGFloat) {
+        alignToTop(of: self.superview!, margin: margin, multiplier: 1)
     }
 
-    func cd_alignBottomToParent(with margin: CGFloat) {
-        cd_alignToBottom(of: self.superview!, margin: margin)
+    func alignBottomToParent(with margin: CGFloat) {
+        alignToBottom(of: self.superview!, margin: margin)
     }
 
-    func cd_alignToBottom(of view: UIView, margin: CGFloat) {
+    func alignToBottom(of view: UIView, margin: CGFloat) {
         self.superview!.addConstraint(NSLayoutConstraint(item: self,
                                                          attribute: .bottom,
                                                          relatedBy: .equal,
@@ -37,11 +37,11 @@ internal extension UIView {
                                                          constant: -margin))
     }
 
-    func cd_alignLeftToParent(with margin: CGFloat) {
-        cd_alignToLeft(of: self.superview!, margin: margin)
+    func alignLeftToParent(with margin: CGFloat) {
+        alignToLeft(of: self.superview!, margin: margin)
     }
 
-    func cd_alignToLeft(of view: UIView, margin: CGFloat) {
+    func alignToLeft(of view: UIView, margin: CGFloat) {
         self.superview!.addConstraint(NSLayoutConstraint(item: self,
                                                          attribute: .left,
                                                          relatedBy: .equal,
@@ -51,11 +51,11 @@ internal extension UIView {
                                                          constant: margin))
     }
 
-    func cd_alignRightToParent(with margin: CGFloat) {
-        cd_alignToRight(of: self.superview!, margin: margin)
+    func alignRightToParent(with margin: CGFloat) {
+        alignToRight(of: self.superview!, margin: margin)
     }
 
-    func cd_alignToRight(of view: UIView, margin: CGFloat) {
+    func alignToRight(of view: UIView, margin: CGFloat) {
         self.superview!.addConstraint(NSLayoutConstraint(item: self,
                                                          attribute: .right,
                                                          relatedBy: .equal,
@@ -65,15 +65,15 @@ internal extension UIView {
                                                          constant: -margin))
     }
 
-    func cd_alignToParent(with margin: CGFloat) {
+    func alignToParent(with margin: CGFloat) {
         translatesAutoresizingMaskIntoConstraints = false
-        cd_alignTopToParent(with: margin)
-        cd_alignLeftToParent(with: margin)
-        cd_alignRightToParent(with: margin)
-        cd_alignBottomToParent(with: margin)
+        alignTopToParent(with: margin)
+        alignLeftToParent(with: margin)
+        alignRightToParent(with: margin)
+        alignBottomToParent(with: margin)
     }
 
-    func cd_setHeight(_ height: CGFloat) {
+    func setHeight(_ height: CGFloat) {
         self.addConstraint(NSLayoutConstraint(item: self,
                                               attribute: .height,
                                               relatedBy: .equal,
@@ -83,7 +83,7 @@ internal extension UIView {
                                               constant: height))
     }
 
-    func cd_setMaxHeight(_ height: CGFloat) {
+    func setMaxHeight(_ height: CGFloat) {
         self.addConstraint(NSLayoutConstraint(item: self,
                                               attribute: .height,
                                               relatedBy: .lessThanOrEqual,
@@ -93,7 +93,7 @@ internal extension UIView {
                                               constant: height))
     }
 
-    func cd_setWidth(_ width: CGFloat) {
+    func setWidth(_ width: CGFloat) {
         self.addConstraint(NSLayoutConstraint(item: self,
                                               attribute: .width,
                                               relatedBy: .equal,
@@ -103,7 +103,7 @@ internal extension UIView {
                                               constant: width))
     }
 
-    func cd_centerHorizontally() {
+    func centerHorizontally() {
         self.superview!.addConstraint(NSLayoutConstraint(item: self,
                                                          attribute: .centerX,
                                                          relatedBy: .equal,
@@ -113,7 +113,7 @@ internal extension UIView {
                                                          constant: 0))
     }
 
-    func cd_centerVertically() {
+    func centerVertically() {
         self.superview!.addConstraint(NSLayoutConstraint(item: self,
                                                          attribute: .centerY,
                                                          relatedBy: .equal,
@@ -123,7 +123,7 @@ internal extension UIView {
                                                          constant: 0))
     }
 
-    func cd_place(below view: UIView, margin: CGFloat) {
+    func place(below view: UIView, margin: CGFloat) {
         self.superview!.addConstraint(NSLayoutConstraint(item: self,
                                                          attribute: .top,
                                                          relatedBy: .equal,
@@ -133,7 +133,7 @@ internal extension UIView {
                                                          constant: margin))
     }
 
-    func cd_place(above view: UIView, margin: CGFloat) {
+    func place(above view: UIView, margin: CGFloat) {
         self.superview!.addConstraint(NSLayoutConstraint(item: self,
                                                          attribute: .bottom,
                                                          relatedBy: .equal,

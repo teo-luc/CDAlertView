@@ -6,15 +6,17 @@
 //
 //
 
-import Foundation
+import UIKit.UIImage
 
-class ImageHelper {
-    class func loadImage(name: String?) -> UIImage? {
+open class ImageHelper {
+    class open func loadImage(name: String?) -> UIImage? {
         if let n = name {
             let podBundle = Bundle(for: ImageHelper.self)
             if let url = podBundle.url(forResource: "CDAlertView", withExtension: "bundle") {
                 let bundle = Bundle(url: url)
                 return UIImage(named: n, in: bundle, compatibleWith: nil)
+            } else {
+                return UIImage(named: n, in: podBundle, compatibleWith: nil)
             }
         }
         return nil
